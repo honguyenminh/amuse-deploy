@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: amuse-stage
+  namespace: argocd
+  labels:
+    amuse.env: stage
+  annotations:
+    argocd.argoproj.io/compare-options: ServerSideDiff=true
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: amuse
+  source:
+    repoURL: https://github.com/honguyenminh/amuse-deploy.git
+    targetRevision: main
+    path: overlays/stage
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: amuse
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
