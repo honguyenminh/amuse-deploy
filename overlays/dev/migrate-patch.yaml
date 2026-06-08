@@ -1,0 +1,20 @@
+# Dev runs in-cluster Postgres (Service name `postgres`). Stage uses Azure Flexible Server — no init wait.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: amuse-migrate
+  namespace: amuse
+spec:
+  template:
+    spec:
+      initContainers:
+        - name: wait-for-postgres
+          image: docker.io/postgres:18
+          command:
+            - /bin/sh
+            - -c
+            - |
+              until pg_isready -h postgres -p 5432 -U postgres; do
+                echo "waiting for postgres..."
+                sleep 2
+              done

@@ -23,17 +23,6 @@ spec:
       restartPolicy: Never
       imagePullSecrets:
         - name: ghcr-pull
-      initContainers:
-        - name: wait-for-postgres
-          image: docker.io/postgres:18
-          command:
-            - /bin/sh
-            - -c
-            - |
-              until pg_isready -h postgres -p 5432 -U postgres; do
-                echo "waiting for postgres..."
-                sleep 2
-              done
       containers:
         - name: migrate
           image: ghcr.io/honguyenminh/amuse-migrate:master

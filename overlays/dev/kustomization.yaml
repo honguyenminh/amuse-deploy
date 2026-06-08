@@ -25,6 +25,7 @@ patches:
   - path: hosts-patch.yaml
   - path: api-env-patch.yaml
   - path: workload-identity-patch.yaml
+  - path: migrate-patch.yaml
 
 components:
   - images-tags
