@@ -44,9 +44,9 @@ spec:
                   name: amuse-frontend-env
                   key: MEDIA_PUBLIC_BASE_URL
                   optional: true
+          # tcpSocket — AGC health follows readiness; HTTP GET / returns 307 on Next.js (unhealthy upstream).
           readinessProbe:
-            httpGet:
-              path: /
+            tcpSocket:
               port: http
             initialDelaySeconds: 10
             periodSeconds: 10
